@@ -7,17 +7,16 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# INIT AUTH
 if "auth" not in st.session_state:
     st.session_state.auth = {"is_logged_in": False, "user": None}
 
-# Landing minimal (biar Streamlit selesai init dulu)
-st.markdown("### Memuat aplikasi...")
+# flag 1x agar tidak loop
+if "boot_redirected" not in st.session_state:
+    st.session_state.boot_redirected = True
+    st.rerun()
 
-# Auto redirect via query param kecil (hindari switch di frame pertama)
+# setelah rerun kedua, baru switch
 if st.session_state.auth.get("is_logged_in"):
-    if st.button("Masuk ke Order", use_container_width=True):
-        st.switch_page("pages/3_User_Order.py")
+    st.switch_page("pages/3_User_Order.py")
 else:
-    if st.button("Ke Halaman Login", use_container_width=True):
-        st.switch_page("pages/1_Login.py")
+    st.switch_page("pages/1_Login.py")
