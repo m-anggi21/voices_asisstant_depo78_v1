@@ -10,13 +10,14 @@ st.set_page_config(
 if "auth" not in st.session_state:
     st.session_state.auth = {"is_logged_in": False, "user": None}
 
-# flag 1x agar tidak loop
-if "boot_redirected" not in st.session_state:
-    st.session_state.boot_redirected = True
-    st.rerun()
+st.title("🛒 Depo 78")
 
-# setelah rerun kedua, baru switch
+# Tombol navigasi (AMAN di Cloud)
 if st.session_state.auth.get("is_logged_in"):
-    st.switch_page("pages/3_User_Order.py")
+    st.success("Anda sudah login.")
+    if st.button("Lanjut ke Order", use_container_width=True):
+        st.switch_page("pages/3_User_Order.py")
 else:
-    st.switch_page("pages/1_Login.py")
+    st.info("Silakan login untuk melanjutkan.")
+    if st.button("Ke Halaman Login", use_container_width=True):
+        st.switch_page("pages/1_Login.py")
